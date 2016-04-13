@@ -1,0 +1,54 @@
+1) FOR CHANGING THE WPA SUPPLICANT FILE
+
+sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+
+
+country=GB
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={
+         ssid="ITMC-WPA2"
+         key_mgmt=WPA-EAP
+         eap=PEAP
+         pairwise=CCMP
+         group=CCMP
+         ca_cert="/usr/local/share/ca-certificates/telekom.crt"
+         phase2="auth=MSCHAPV2"
+         identity="smsaselv"
+         password="deepthi1993"
+         priority=1
+}
+
+2) FOR CHANGING THE NETOWRK INTERFACES FILE
+
+# interfaces(5) file used by ifup(8) and ifdown(8)
+
+# Please note that this file is written to be used with dhcpcd
+# For static IP, consult /etc/dhcpcd.conf and 'man dhcpcd.conf'
+
+# Include files from /etc/network/interfaces.d:
+source-directory /etc/network/interfaces.d
+
+auto lo
+iface lo inet loopback
+
+iface eth0 inet manual
+address 129.217.193.162
+netmask 255.255.255.128
+gateway 129.217.193.255
+
+auto wlan0
+
+allow-hotplug wlan0
+iface wlan0 inet dhcp
+wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+iface default inet dhcp
+
+
+3) COPY THE TELEKOM.CRT FILE TO CA-CERTIFICATES FOLDER
+
+first download crt file from the link >  www.pki.tu-dortmund.de
+
+COMMAND to COPY >  sudo cp /home/pi/Downloads/telekom.crt
+/usr/local/share/ca-certificates/
